@@ -1,0 +1,51 @@
+Fatal Python error: init_import_site: Failed to import the site module
+Python runtime state: initialized
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap>", line 1176, in exec_module
+  File "<frozen site>", line 675, in <module>
+  File "<frozen site>", line 658, in main
+  File "<frozen site>", line 576, in venv
+PermissionError: [Errno 1] Operation not permitted: '/Users/ofekshor/Documents/data-portfolio/venv/pyvenv.cfg'
+Fatal Python error: init_import_site: Failed to import the site module
+Python runtime state: initialized
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap>", line 1176, in exec_module
+  File "<frozen site>", line 675, in <module>
+  File "<frozen site>", line 658, in main
+  File "<frozen site>", line 576, in venv
+PermissionError: [Errno 1] Operation not permitted: '/Users/ofekshor/Documents/data-portfolio/venv/pyvenv.cfg'
+Fatal Python error: init_import_site: Failed to import the site module
+Python runtime state: initialized
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap>", line 1176, in exec_module
+  File "<frozen site>", line 675, in <module>
+  File "<frozen site>", line 658, in main
+  File "<frozen site>", line 576, in venv
+PermissionError: [Errno 1] Operation not permitted: '/Users/ofekshor/Documents/data-portfolio/venv/pyvenv.cfg'
+Fatal Python error: init_import_site: Failed to import the site module
+Python runtime state: initialized
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap>", line 1176, in exec_module
+  File "<frozen site>", line 675, in <module>
+  File "<frozen site>", line 658, in main
+  File "<frozen site>", line 576, in venv
+PermissionError: [Errno 1] Operation not permitted: '/Users/ofekshor/Documents/data-portfolio/venv/pyvenv.cfg'
+Traceback (most recent call last):
+  File "/Users/ofekshor/Documents/data-portfolio/src/sync_sheet_to_sql.py", line 11, in <module>
+    creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
+  File "/Users/ofekshor/Documents/data-portfolio/venv/lib/python3.13/site-packages/oauth2client/service_account.py", line 219, in from_json_keyfile_name
+    with open(filename, 'r') as file_obj:
+         ~~~~^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'credentials.json'

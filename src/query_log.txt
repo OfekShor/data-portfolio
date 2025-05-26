@@ -1,0 +1,6 @@
+2025-05-25 16:43:18 | price_aapl.sql
+SELECT Date, Symbol, Price
+FROM price_history_long
+WHERE Symbol = 'AAPL'
+ORDER BY Date
+------------------------------------------------------------
