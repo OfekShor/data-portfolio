@@ -1,24 +1,27 @@
+// src/App.js
 import React from "react";
-import "./App.css";
-import ProjectCard from "./ProjectCard";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
+import Queries from "./pages/Queries";
+import Exports from "./pages/Exports";
+import Visuals from "./pages/Visuals";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Ofek Shor – Data Analyst Portfolio</h1>
-        <p>Welcome to my portfolio...</p>
-      </header>
-
-      <main>
-        <ProjectCard
-          title="Sales Analysis with SQL + Sheets"
-          description="Pulled sales data using SQL queries, processed it in Google Sheets, and visualized key KPIs in Tableau."
-          sheetLink="https://docs.google.com/spreadsheets/d/YOUR-SHEET-ID"
-          dashboardLink="https://public.tableau.com/views/YOUR-DASHBOARD-ID"
-        />
-      </main>
-    </div>
+    <Router>
+      <div className="App">
+        <Navbar />
+        <div className="page-content">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/queries" element={<Queries />} />
+            <Route path="/exports" element={<Exports />} />
+            <Route path="/visuals" element={<Visuals />} />
+          </Routes>
+        </div>
+      </div>
+    </Router>
   );
 }
 
