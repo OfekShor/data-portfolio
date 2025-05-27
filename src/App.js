@@ -7,6 +7,9 @@ import Queries from "./pages/Queries";
 import Exports from "./pages/Exports";
 import Visuals from "./pages/Visuals";
 
+import './styles/App.css';
+
+
 function App() {
   return (
     <Router>
