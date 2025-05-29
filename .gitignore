@@ -24,3 +24,8 @@ yarn-error.log*
 
 # secrets
 src/credentials.json
+credentials.json
+
+credentials.json
+sheets-access-460314-06cc58de5b83.json
+credentials.json

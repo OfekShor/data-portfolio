@@ -27,9 +27,9 @@ export default function Exports() {
           </div>
 
           <div>
-            <h2 className="text-xl font-semibold mb-1">📄 price_history_long.csv</h2>
+            <h2 className="text-xl font-semibold mb-1">📄 price_history.csv</h2>
             <p className="text-base text-gray-600">
-              Long-format table optimized for time-series visualizations and trend analysis.
+              Long-format table including daily and reference-based percent change – used for time-series visualizations and trend analysis.
             </p>
           </div>
 

@@ -1,3 +1,4 @@
+
 import os
 import subprocess
 import sqlite3
@@ -64,6 +65,31 @@ if os.path.exists(query_file_path):
         print(f"❌ Failed to run query from query.sql: {e}")
 else:
     print("⚠️  No query.sql file found – skipping custom query export.")
+
+# שלב 4 – הוספת אחוזי שינוי לקובץ long
+print("\n📊 Calculating daily and reference percent changes...")
+
+price_history_long_path = os.path.join(output_dir, "price_history_long.csv")
+if os.path.exists(price_history_long_path):
+    try:
+        df_long = pd.read_csv(price_history_long_path)
+        df_long["Date"] = pd.to_datetime(df_long["Date"])
+        df_long = df_long.sort_values(by=["Symbol", "Date"])
+        df_long["percent_change_daily"] = df_long.groupby("Symbol")["Price"].pct_change() * 100
+
+        reference_date = pd.to_datetime("2025-05-21")
+        ref_prices = df_long[df_long["Date"] == reference_date][["Symbol", "Price"]].rename(columns={"Price": "RefPrice"})
+        df_long = df_long.merge(ref_prices, on="Symbol", how="left")
+        df_long["percent_change_since_2025_05_21"] = ((df_long["Price"] - df_long["RefPrice"]) / df_long["RefPrice"]) * 100
+        df_long.drop(columns=["RefPrice"], inplace=True)
+
+        enhanced_path = os.path.join(output_dir, "price_history_long_with_change.csv")
+        df_long.to_csv(enhanced_path, index=False)
+        print(f"✅ Saved enhanced long-format CSV → {enhanced_path}")
+    except Exception as e:
+        print(f"❌ Failed to calculate percent changes: {e}")
+else:
+    print("⚠️  price_history_long.csv not found – skipping percent change calculations.")
 
 conn.close()
 print("\n🏁 All done! You can now refresh in Tableau.")
