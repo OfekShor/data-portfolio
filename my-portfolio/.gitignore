@@ -1,23 +1,41 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
+# 📦 Node dependencies
 /node_modules
 /.pnp
 .pnp.js
 
-# testing
+# 🔍 Testing
 /coverage
 
-# production
+# 🚀 Production build
 /build
 
-# misc
+# ⚙️ System files
 .DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
 
+# 🔐 Environment variables
+.env*
+!.env.example
+
+# 📉 Debug logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# 🧠 Python files
+*.pyc
+__pycache__/
+
+# 🗃️ Database and logs
+*.db
+*.log
+
+# 🔑 Sensitive credentials
+credentials.json
+src/credentials.json
+
+# 📤 Exported data
+csv_exports/
+sync_log.txt
+
+# 🔄 Virtual environment (if exists)
+venv/
