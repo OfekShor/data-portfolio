@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom"; // 🔄 הוחלף ל־HashRouter
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -10,7 +10,8 @@ import "./styles/App.css";
 
 function App() {
   return (
-    <Router basename="/data-portfolio">
+    <Router>
+      {/* ℹ️ HashRouter מתאים לפריסה ב-GitHub Pages */}
       <div className="App flex flex-col min-h-screen">
         <Navbar />
         <div className="flex-grow">
