@@ -31,6 +31,18 @@ export default function Home() {
           <li>Data visualization with Tableau Public</li>
         </ul>
       </div>
+
+      <div className="max-w-5xl mx-auto mt-20 text-center">
+        <h2 className="text-3xl font-bold text-gray-900 mb-6">System Workflow</h2>
+        <p className="text-lg text-gray-700 mb-8">
+          This diagram summarizes the end-to-end data flow — from integration to final visualization:
+        </p>
+        <img
+          src={process.env.PUBLIC_URL + "/workflow.png"}
+          alt="System Workflow"
+          className="mx-auto rounded shadow-md max-w-full h-auto"
+        />
+      </div>
     </section>
   );
 }
