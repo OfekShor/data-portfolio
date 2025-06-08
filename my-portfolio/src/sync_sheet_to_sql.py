@@ -1,3 +1,4 @@
+
 import gspread
 import pandas as pd
 import sqlite3
@@ -51,7 +52,6 @@ for sheet in sheet_list:
 
     print(f"📌 Columns in sheet '{sheet.title}': {df.columns.tolist()}")
 
-    # סינון גיליונות עם עמודה ללא שם
     if "" in df.columns:
         print(f"⚠️  דילוג על {sheet.title} – עמודה בלי שם")
         continue
@@ -59,9 +59,9 @@ for sheet in sheet_list:
     df = df.apply(safe_to_numeric)
 
     if 'Date' in df.columns:
-        df['Date'] = pd.to_datetime(df['Date'], errors='coerce', dayfirst=True)
+        df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
+        df['Date'] = df['Date'].dt.strftime('%Y-%m-%d')
 
-    # טיפול בגיליון Price_History
     if sheet.title == "Price_History":
         print("🔄 זיהוי פורמט...")
 
@@ -72,12 +72,13 @@ for sheet in sheet_list:
             print("🔁 המרה מ־wide ל־long format")
             df_long = pd.melt(df, id_vars=["Date"], var_name="Symbol", value_name="Price")
 
-        # סינון שורות לא תקינות
         df_long = df_long.dropna(subset=["Date", "Symbol", "Price"])
         df_long["Price"] = pd.to_numeric(df_long["Price"], errors="coerce")
-        df_long["Date"] = pd.to_datetime(df_long["Date"], errors="coerce", dayfirst=True)
+        df_long["Date"] = pd.to_datetime(df_long["Date"], errors="coerce").dt.strftime('%Y-%m-%d')
 
+        df_long = df_long.drop_duplicates(subset=["Symbol", "Date"])
         df_long = df_long.sort_values(by=["Symbol", "Date"])
+
         df_long["Percent Change"] = df_long.groupby("Symbol")["Price"].pct_change() * 100
         df_long["Percent Change"] = df_long["Percent Change"].round(2)
 
@@ -88,13 +89,11 @@ for sheet in sheet_list:
         df_long.to_csv(csv_path, index=False)
         print(f"💾 CSV saved to: {csv_path}")
 
-        # עדכון גיליון
         sheet.clear()
         sheet.update([df_long.columns.tolist()] + df_long.astype(str).values.tolist())
         print("🔁 Google Sheet updated with long-format + Percent Change")
         continue
 
-    # גיליונות רגילים
     if all(col in df.columns for col in ['Symbol', 'Price', 'Date']):
         df = df.dropna(subset=["Symbol", "Price", "Date"])
         df = df.sort_values(by=['Symbol', 'Date'])
