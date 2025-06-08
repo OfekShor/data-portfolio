@@ -18,7 +18,7 @@ client = gspread.authorize(creds)
 
 # פתיחת הגיליון והכנת מסד נתונים
 spreadsheet_name = "Stock Portfolio Tracking Spreadsheet"
-database_name = "../stocks.db"
+database_name = "/Users/ofekshor/Documents/data-portfolio/stocks.db"
 spreadsheet = client.open(spreadsheet_name)
 sheet_list = spreadsheet.worksheets()
 
