@@ -3,6 +3,7 @@ import gspread
 import pandas as pd
 import sqlite3
 import os
+from datetime import datetime
 from oauth2client.service_account import ServiceAccountCredentials
 
 # התחברות ל-Google Sheets
@@ -11,31 +12,31 @@ scope = [
     "https://www.googleapis.com/auth/drive"
 ]
 creds = ServiceAccountCredentials.from_json_keyfile_name(
-    "/Users/ofekshor/Documents/data-portfolio/my-portfolio/src/credentials.json",
+    os.path.join(os.path.dirname(__file__), "credentials.json"),
     scope
 )
 client = gspread.authorize(creds)
 
 # פתיחת הגיליון והכנת מסד נתונים
 spreadsheet_name = "Stock Portfolio Tracking Spreadsheet"
-database_name = "/Users/ofekshor/Documents/data-portfolio/stocks.db"
+
+# DB מחוץ ל-src
+database_name = os.path.join(os.path.dirname(__file__), "../stocks.db")
 spreadsheet = client.open(spreadsheet_name)
 sheet_list = spreadsheet.worksheets()
 
 conn = sqlite3.connect(database_name)
 
-# יצירת תיקיית CSV אם לא קיימת
+# יצירת תיקיית CSV בתוך my-portfolio
 csv_folder = os.path.join(os.path.dirname(__file__), "../csv_exports")
 os.makedirs(csv_folder, exist_ok=True)
 
-# פונקציה להמרה בטוחה למספרים
 def safe_to_numeric(x):
     try:
         return pd.to_numeric(x)
     except:
         return x
 
-# עיבוד כל גיליון
 for sheet in sheet_list:
     name = sheet.title.lower().replace(" ", "_").replace("-", "_")
     print(f"\n📄 Loading the sheet : {sheet.title}")
@@ -112,4 +113,4 @@ for sheet in sheet_list:
         print(f"❌ Error on saving {sheet.title}: {e}")
 
 conn.close()
-print("\n🏁 Sync complete")
+print(f"\n🏁 Sync complete at {datetime.now().isoformat()}")

@@ -25,5 +25,5 @@ SELECT
   ROUND(100.0 * (l.LatestPrice - b.BasePrice) / b.BasePrice, 2) AS Percent_Change
 FROM base_prices b
 JOIN latest_prices l ON b.Symbol = l.Symbol
-WHERE ABS((l.LatestPrice - b.BasePrice) / b.BasePrice) * 100 > 5
+WHERE ABS((l.LatestPrice - b.BasePrice) / b.BasePrice) * 100 > 3
 ORDER BY Percent_Change DESC;
