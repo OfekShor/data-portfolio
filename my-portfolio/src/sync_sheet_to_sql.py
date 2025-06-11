@@ -1,4 +1,3 @@
-
 import gspread
 import pandas as pd
 import sqlite3
@@ -11,16 +10,17 @@ scope = [
     "https://spreadsheets.google.com/feeds",
     "https://www.googleapis.com/auth/drive"
 ]
-creds = ServiceAccountCredentials.from_json_keyfile_name(
-    os.path.join(os.path.dirname(__file__), "credentials.json"),
-    scope
-)
+
+# מציאת הנתיב לקובץ credentials.json (תומך גם בסביבת Render)
+credentials_path = os.path.join(os.path.dirname(__file__), "credentials.json")
+if not os.path.exists(credentials_path):
+    credentials_path = os.path.join(os.path.dirname(__file__), "../backend/credentials.json")
+
+creds = ServiceAccountCredentials.from_json_keyfile_name(credentials_path, scope)
 client = gspread.authorize(creds)
 
 # פתיחת הגיליון והכנת מסד נתונים
 spreadsheet_name = "Stock Portfolio Tracking Spreadsheet"
-
-# DB מחוץ ל-src
 database_name = os.path.join(os.path.dirname(__file__), "../stocks.db")
 spreadsheet = client.open(spreadsheet_name)
 sheet_list = spreadsheet.worksheets()

@@ -17,8 +17,8 @@ const predefinedQueries = [
     query: "SELECT Symbol, AVG(Price) AS Price FROM price_history GROUP BY Symbol;",
   },
   {
-    label: "Portfolio Summary",
-    query: "SELECT Symbol, Weight FROM portfolio_summary;",
+    label: "Market Value per Stock",
+    query: 'SELECT "Stock Ticker" AS Symbol, "Mkt Value" FROM summary_osv LIMIT 15;',
   },
 ];
 
@@ -52,14 +52,28 @@ export default function Queries() {
     }
   };
 
-  const formattedData = data?.rows.map((row) =>
-    Object.fromEntries(data.columns.map((col, i) => [col, row[i]]))
-  );
+  const formattedData = data?.rows
+    .map((row) =>
+      Object.fromEntries(
+        data.columns.map((col, i) => {
+          let value = row[i];
+          if (typeof value === "string") {
+            const cleaned = value.replace(/[$,]/g, "").trim();
+            value = isNaN(cleaned) ? value : parseFloat(cleaned);
+          }
+          return [col.trim(), value];
+        })
+      )
+    )
+    .filter((row) => {
+      const numericColumn = Object.values(row).find(v => typeof v === "number");
+      return numericColumn !== undefined;
+    });
 
   const renderChart = () => {
     if (!formattedData || formattedData.length === 0) return null;
 
-    const keys = data.columns;
+    const keys = Object.keys(formattedData[0]);
 
     if (keys.includes("Date") && keys.includes("Price")) {
       return (
@@ -83,6 +97,19 @@ export default function Queries() {
           <Tooltip />
           <Legend />
           <Bar dataKey="Price" fill="#82ca9d" />
+        </BarChart>
+      );
+    }
+
+    if (keys.includes("Symbol") && keys.includes("Mkt Value")) {
+      return (
+        <BarChart width={700} height={300} data={formattedData}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="Symbol" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="Mkt Value" fill="#8884d8" />
         </BarChart>
       );
     }
@@ -113,7 +140,7 @@ export default function Queries() {
   };
 
   return (
-    <div className="p-6 max-w-6xl mx-auto text-left">
+    <div className="pt-24 px-6 max-w-6xl mx-auto text-center">
       <h1 className="text-4xl font-bold mb-4 text-gray-900">
         Dynamic SQL Queries & Instant Charts
       </h1>
@@ -122,8 +149,12 @@ export default function Queries() {
       </p>
 
       {/* 🔘 שאילתות מוכנות */}
-      <section className="mb-8">
+      <section className="mb-8 text-left">
         <h2 className="text-xl font-semibold mb-2">🧠 Predefined Queries</h2>
+        <p className="text-gray-600 text-sm mb-4">
+         Click one of the predefined buttons below to run a sample query and see a live visualization.
+        </p>
+
         <div className="flex flex-wrap gap-3">
           {predefinedQueries.map((item, i) => (
             <button
@@ -138,7 +169,7 @@ export default function Queries() {
       </section>
 
       {/* 💬 שאילתה ידנית */}
-      <section className="mb-8">
+      <section className="mb-8 text-left">
         <h2 className="text-xl font-semibold mb-2">✍️ Custom SQL Query</h2>
         <textarea
           value={query}
@@ -158,11 +189,16 @@ export default function Queries() {
       {/* ⚠️ שגיאה */}
       {error && <div className="text-red-600 font-medium mt-4">⚠️ {error}</div>}
 
-      {/* 📊 תוצאות ויזואליות */}
+      {/* 📊 גרף מעל טבלה */}
       {data && (
         <>
-          <section className="overflow-x-auto mt-10 border rounded-lg">
-            <table className="min-w-full text-sm text-left border-collapse">
+          <div className="mt-12">
+            <h2 className="text-xl font-semibold mb-4 text-left">📈 Visual Representation</h2>
+            {renderChart()}
+          </div>
+
+          <section className="overflow-x-auto mt-10 border rounded-lg text-left">
+            <table className="min-w-full text-sm border-collapse">
               <thead>
                 <tr>
                   {data.columns.map((col) => (
@@ -181,11 +217,6 @@ export default function Queries() {
               </tbody>
             </table>
           </section>
-
-          <div className="mt-12">
-            <h2 className="text-xl font-semibold mb-4">📈 Visual Representation</h2>
-            {renderChart()}
-          </div>
         </>
       )}
     </div>

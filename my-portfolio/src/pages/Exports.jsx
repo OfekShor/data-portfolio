@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Exports() {
   return (
-    <section className="bg-white py-20 px-6">
+    <section className="pt-24 bg-white px-6">
       <div className="max-w-6xl mx-auto text-center">
         <h1 className="text-4xl font-bold text-gray-900 mb-6">
           📤 Clean Data Exports
