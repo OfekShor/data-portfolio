@@ -3,12 +3,17 @@ services:
     name: flask-backend
     env: python
     buildCommand: pip install -r backend/requirements.txt
-    startCommand: |
-      echo "$GOOGLE_SHEETS_CREDENTIALS" > backend/credentials.json && \
-      python backend/app.py
+    startCommand: python backend/app.py
     envVars:
       - key: FLASK_ENV
         value: production
-      - key: GOOGLE_SHEETS_CREDENTIALS
-        sync: false
+    plan: free
+
+jobs:
+  - name: daily-sync-job
+    type: cron
+    env: python
+    schedule: "daily"  # או "0 6 * * *" כדי לקבוע שעה מדויקת
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: python backend/sync_sheet_to_sql.py
     plan: free
