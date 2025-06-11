@@ -1,5 +1,5 @@
 import React from "react";
-import { HashRouter as Router, Routes, Route } from "react-router-dom"; // 🔄 הוחלף ל־HashRouter
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -11,17 +11,23 @@ import "./styles/App.css";
 function App() {
   return (
     <Router>
-      {/* ℹ️ HashRouter מתאים לפריסה ב-GitHub Pages */}
       <div className="App flex flex-col min-h-screen">
-        <Navbar />
-        <div className="flex-grow">
+        {/* 🧭 Sticky Navbar */}
+        <header className="sticky top-0 z-50">
+          <Navbar />
+        </header>
+
+        {/* 🔄 Page Content */}
+        <main className="flex-grow pb-20">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/queries" element={<Queries />} />
             <Route path="/exports" element={<Exports />} />
             <Route path="/visuals" element={<Visuals />} />
           </Routes>
-        </div>
+        </main>
+
+        {/* 📞 Persistent Footer */}
         <Footer />
       </div>
     </Router>

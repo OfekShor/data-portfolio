@@ -5,23 +5,23 @@ export default function Visuals() {
     <section className="bg-white py-20 px-6">
       <div className="max-w-6xl mx-auto text-center">
         <h1 className="text-4xl font-bold text-gray-900 mb-6">
-          Data Visualizations with Tableau Public
+          📊 Interactive Data Visualizations
         </h1>
 
         <p className="text-lg text-gray-700 mb-4">
-          A snapshot of stock behavior using query-driven data analysis. This
-          visualization shows the daily percent change across selected stocks.
+          Discover trends and insights using real-time visual dashboards powered by Tableau Public.
+          The charts are based on live queries from your SQLite database.
         </p>
 
         <p className="text-sm text-gray-600 italic mb-8">
-          Tip: Click the button below to explore the live interactive version.
+          Tip: Click below to explore the full interactive dashboard including filters and KPIs.
         </p>
 
-        <div className="w-full flex justify-center mb-8">
+        <div className="w-full flex justify-center mb-10">
           <img
-            src={process.env.PUBLIC_URL + "/Symbolscreenshot.png"}
+            src={`${process.env.PUBLIC_URL}/Symbolscreenshot.png`}
             alt="Stock Trends Dashboard Preview"
-            className="rounded shadow max-w-full h-auto border"
+            className="rounded-lg shadow-lg max-w-full h-auto border"
           />
         </div>
 
@@ -29,9 +29,9 @@ export default function Visuals() {
           href="https://public.tableau.com/views/symbolandtrends/symbolandtrends"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-block mt-4 bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold shadow hover:bg-blue-700 transition"
+          className="inline-block bg-blue-600 text-white px-6 py-3 rounded-full font-semibold shadow-md hover:bg-blue-700 transition"
         >
-          🔗 View Full Interactive Dashboard
+          🔗 View Full Dashboard
         </a>
       </div>
     </section>
