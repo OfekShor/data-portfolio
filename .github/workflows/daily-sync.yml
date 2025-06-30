@@ -26,5 +26,10 @@ jobs:
         run: |
           printf "%s" "${{ secrets.CREDENTIALS_JSON }}" > my-portfolio/backend/credentials.json
 
+      - name: 🔍 Debug credentials.json
+        run: |
+          echo "=== credentials.json ==="
+          cat my-portfolio/backend/credentials.json
+
       - name: Run sync script
         run: python my-portfolio/backend/sync_sheet_to_sql.py
