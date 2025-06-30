@@ -24,7 +24,7 @@ jobs:
 
       - name: Create credentials.json from secret
         run: |
-          echo "${{ secrets.CREDENTIALS_JSON }}" > my-portfolio/backend/credentials.json
+          printf "%s" "${{ secrets.CREDENTIALS_JSON }}" > my-portfolio/backend/credentials.json
 
       - name: Run sync script
         run: python my-portfolio/backend/sync_sheet_to_sql.py
