@@ -22,14 +22,14 @@ jobs:
         run: |
           pip install -r my-portfolio/backend/requirements.txt
 
-      - name: Create credentials.json from secret
+      - name: Create credentials.json from secret (safe method)
         run: |
-          printf "%s" "${{ secrets.CREDENTIALS_JSON }}" > my-portfolio/backend/credentials.json
+          echo "${{ secrets.CREDENTIALS_JSON }}" | jq '.' > my-portfolio/backend/credentials.json
 
       - name: 🔍 Debug credentials.json
         run: |
-          echo "=== credentials.json ==="
-          cat my-portfolio/backend/credentials.json
+          echo "=== credentials.json parsed ==="
+          cat my-portfolio/backend/credentials.json | python -m json.tool
 
       - name: Run sync script
         run: python my-portfolio/backend/sync_sheet_to_sql.py
