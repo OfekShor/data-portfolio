@@ -3,7 +3,7 @@ import pandas as pd
 import sqlite3
 import os
 from datetime import datetime
-from oauth2client.service_account import ServiceAccountCredentials
+from google.oauth2.service_account import Credentials
 
 # התחברות ל-Google Sheets
 scope = [
@@ -13,11 +13,9 @@ scope = [
 
 # מציאת הנתיב לקובץ credentials.json (תומך גם בסביבת Render)
 credentials_path = os.path.join(os.path.dirname(__file__), "credentials.json")
-if not os.path.exists(credentials_path):
-    credentials_path = os.path.join(os.path.dirname(__file__), "../backend/credentials.json")
 
-creds = ServiceAccountCredentials.from_json_keyfile_name(credentials_path, scope)
-client = gspread.authorize(creds)
+credentials = Credentials.from_service_account_file(credentials_path, scopes=scope)
+client = gspread.authorize(credentials)
 
 # פתיחת הגיליון והכנת מסד נתונים
 spreadsheet_name = "Stock Portfolio Tracking Spreadsheet"
