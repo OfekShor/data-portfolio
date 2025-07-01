@@ -3,7 +3,7 @@ name: Daily Sync Google Sheets to SQLite
 on:
   schedule:
     - cron: "0 4 * * *"  # Every day at 7:00 AM Israel time (UTC+3)
-  workflow_dispatch:
+  workflow_dispatch:     # Allow manual trigger
 
 jobs:
   sync:
@@ -22,14 +22,8 @@ jobs:
         run: |
           pip install -r my-portfolio/backend/requirements.txt
 
-      - name: Create credentials.json from secret (safe method)
-        run: |
-          echo "${{ secrets.CREDENTIALS_JSON }}" | jq '.' > my-portfolio/backend/credentials.json
-
-      - name: 🔍 Debug credentials.json
-        run: |
-          echo "=== credentials.json parsed ==="
-          cat my-portfolio/backend/credentials.json | python -m json.tool
+      - name: Create credentials.json from secret
+        run: echo "${{ secrets.CREDENTIALS_JSON }}" | jq '.' > my-portfolio/backend/credentials.json
 
       - name: Run sync script
         run: python my-portfolio/backend/sync_sheet_to_sql.py
