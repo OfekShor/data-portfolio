@@ -23,7 +23,7 @@ jobs:
           pip install -r my-portfolio/backend/requirements.txt
 
       - name: Create credentials.json from secret
-        run: echo "${{ secrets.CREDENTIALS_JSON }}" | jq '.' > my-portfolio/backend/credentials.json
+        run: echo '${{ secrets.CREDENTIALS_JSON }}' | jq '.' > my-portfolio/backend/credentials.json
 
       - name: Run sync script
         run: python my-portfolio/backend/sync_sheet_to_sql.py
