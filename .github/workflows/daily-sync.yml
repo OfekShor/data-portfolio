@@ -1,35 +1,31 @@
-name: Daily Sync Google Sheets to SQLite
+name: Daily Sync
 
 on:
+  workflow_dispatch:
   schedule:
-    - cron: "0 4 * * *"  # Every day at 7:00 AM Israel time (UTC+3)
-  workflow_dispatch:     # Allow manual trigger
+    - cron: '0 4 * * *'  # מריץ כל יום ב־07:00 לפי שעון ישראל (UTC+3)
 
 jobs:
   sync:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: 3.10
 
       - name: Install dependencies
-        run: |
-          pip install -r my-portfolio/backend/requirements.txt
+        run: pip install -r my-portfolio/backend/requirements.txt
 
-      - name: Create credentials.json from secret
-        run: echo '${{ secrets.CREDENTIALS_JSON }}' | jq '.' > my-portfolio/backend/credentials.json
+      - name: Write credentials.json from GitHub Secret
+        run: |
+          echo "$CREDENTIALS_JSON" | python3 -c "import sys, json; print(json.dumps(json.loads(sys.stdin.read()), indent=2))" > my-portfolio/backend/credentials.json
+        env:
+          CREDENTIALS_JSON: ${{ secrets.CREDENTIALS_JSON }}
 
       - name: Run sync script
         run: python my-portfolio/backend/sync_sheet_to_sql.py
-
-      - name: Debug credentials.json
-        run: cat my-portfolio/backend/credentials.json
-
-      - name: Decode credentials.json
-        run: echo "${{ secrets.CREDENTIALS_JSON }}" | python3 -c "import sys, json; print(json.dumps(json.loads(sys.stdin.read()), indent=2))" > my-portfolio/backend/credentials.json
