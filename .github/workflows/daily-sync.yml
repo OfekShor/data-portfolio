@@ -3,7 +3,7 @@ name: Daily Sync
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 4 * * *'  # מריץ כל יום ב־07:00 לפי שעון ישראל (UTC+3)
+    - cron: '0 4 * * *'  # יומי ב־7:00 בבוקר ישראל
 
 jobs:
   sync:
@@ -21,9 +21,9 @@ jobs:
       - name: Install dependencies
         run: pip install -r my-portfolio/backend/requirements.txt
 
-      - name: Write credentials.json from GitHub Secret
+      - name: Create credentials.json with newlines
         run: |
-          echo "$CREDENTIALS_JSON" | python3 -c "import sys, json; print(json.dumps(json.loads(sys.stdin.read()), indent=2))" > my-portfolio/backend/credentials.json
+          echo "$CREDENTIALS_JSON" | sed 's/\\\\n/\\n/g' > my-portfolio/backend/credentials.json
         env:
           CREDENTIALS_JSON: ${{ secrets.CREDENTIALS_JSON }}
 
